@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import DroneDataTable from "./src/DroneDataTable.js";
 import QueryInput from "./src/QueryInput.js";
+import DroneData from "./src/DroneData.jsx";
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Drone Image Specifications</h1>
-      <DroneDataTable data={DroneDataTable} />
+      <DroneDataTable data={DroneData} />
       <QueryInput
         query={query}
         setQuery={setQuery}

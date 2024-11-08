@@ -1,18 +1,18 @@
-const express = require('express');
-const { Configuration, OpenAIApi } = require('openai');
-const dotenv = require('dotenv');
+import express from 'express';
+import { Configuration, OpenAIApi } from 'openai';
+import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-
+app.use(cors()); 
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-
 
 const droneData = [
   {
@@ -55,14 +55,14 @@ const droneData = [
     image_tags: ["Mountain", "Sky"],
     file_name: "YNP_004.jpg"
   },
-   { 
+  { 
     image_id: "005",
-    timestamp: "2024-09-24 14:44:56", "latitude": "44.4282° N",
+    timestamp: "2024-09-24 14:44:56",
+    latitude: "44.4282° N",
     longitude: "110.5879° W",
     altitude_m: 80,
     heading_deg: 315,
-    file_name: "YNP_005.jpg",
-
+    file_name: "YNP_005.jpg"
   }
 ];
 
@@ -71,20 +71,32 @@ app.post('/api/query', async (req, res) => {
   const { query } = req.body;
 
   try {
-    
-    const completion = await openai.createCompletion({
+    const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      prompt: `Given the drone dataset, find data entries relevant to: ${query}`,
+      messages: [
+        {
+          role: "system", 
+          content: "You are a helpful assistant."
+        },
+        {
+          role: "user", 
+          content: `Given the drone dataset, find data entries relevant to: ${query}`
+        }
+      ],
       max_tokens: 50,
     });
 
-    const interpretation = completion.data.choices[0].text;
+    const interpretation = completion.data.choices[0].message.content;
 
-   
-    const filteredData = droneData.filter((data) =>
-      data.latitude.includes(query) ||
-      data.image_tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-    );
+    const filteredData = droneData.filter((data) => {
+      const lat = parseFloat(data.latitude); 
+      const lon = parseFloat(data.longitude); 
+
+      return (
+        (lat && lon && (lat.toString().includes(query) || lon.toString().includes(query))) ||
+        data.image_tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+      );
+    });
 
     res.json({ interpretation, results: filteredData });
   } catch (error) {
@@ -93,5 +105,6 @@ app.post('/api/query', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

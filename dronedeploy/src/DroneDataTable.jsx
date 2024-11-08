@@ -4,11 +4,12 @@ import DroneData from './src/DroneData';
 
 const DroneDataTable = ({ data }) => (
   <div>
-    {data.map(({ image_id, latitude, longitude }) => (
+    {data.map(({ image_id, latitude, longitude, altitude }) => (
       <div key={image_id}>
         <p>Image ID: {image_id}</p>
         <p>Latitude: {latitude}</p>
         <p>Longitude: {longitude}</p>
+        <p>Altitude:{altitude}</p>
       </div>
     ))}
   </div>
