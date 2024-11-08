@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 
 const DroneData = [
     {
@@ -40,22 +39,16 @@ const DroneData = [
       battery_level_pct: 88,
       image_tags: ["Mountain", "Sky"],
       file_name: "YNP_004.jpg"
-    }
+    },
+    { 
+        image_id: "005",
+        timestamp: "2024-09-24 14:44:56", "latitude": "44.4282° N",
+        longitude: "110.5879° W",
+        altitude_m: 80,
+        heading_deg: 315,
+        file_name: "YNP_005.jpg"
+    
+      }
   ];
-
-  DroneData.propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        image_id: PropTypes.string.isRequired,
-        timestamp: PropTypes.string.isRequired,
-        latitude: PropTypes.string.isRequired,
-        longitude: PropTypes.string.isRequired,
-        altitude_m: PropTypes.number.isRequired,
-        battery_level_pct: PropTypes.number.isRequired,
-        image_tags: PropTypes.arrayOf(PropTypes.string).isRequired, // Array of strings
-        file_name: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-  };
   
   export default DroneData;

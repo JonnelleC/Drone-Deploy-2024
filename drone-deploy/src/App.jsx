@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Drone Data Viewer</h1>
+      <h1>Drone Image Specifications</h1>
       <DroneDataTable data={DroneDataTable} />
       <QueryInput
         query={query}
