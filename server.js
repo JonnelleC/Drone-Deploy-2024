@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import cors from "cors";
 import OpenAI from "openai";
 
-/
+
 config();
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(cors());
 
 
 const openai = new OpenAI({
-  apiKey: process.env.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,
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 const droneData = [
