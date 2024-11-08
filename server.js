@@ -1,18 +1,19 @@
-import express from 'express';
-import { Configuration, OpenAIApi } from 'openai';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import express from "express";
+import { config } from "dotenv";
+import cors from "cors";
+import OpenAI from "openai";
 
-dotenv.config();
+/
+config();
 
 const app = express();
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+
+const openai = new OpenAI({
+  apiKey: process.env.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,
 });
-const openai = new OpenAIApi(configuration);
 
 const droneData = [
   {
@@ -71,23 +72,20 @@ app.post('/api/query', async (req, res) => {
   const { query } = req.body;
 
   try {
-    const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+ 
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", 
       messages: [
-        {
-          role: "system", 
-          content: "You are a helpful assistant."
-        },
-        {
-          role: "user", 
-          content: `Given the drone dataset, find data entries relevant to: ${query}`
-        }
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: `Given the drone dataset, find data entries relevant to: ${query}` }
       ],
       max_tokens: 50,
     });
 
-    const interpretation = completion.data.choices[0].message.content;
+  
+    const interpretation = completion.choices[0].message.content;
 
+    
     const filteredData = droneData.filter((data) => {
       const lat = parseFloat(data.latitude); 
       const lon = parseFloat(data.longitude); 
@@ -98,13 +96,13 @@ app.post('/api/query', async (req, res) => {
       );
     });
 
+   
     res.json({ interpretation, results: filteredData });
   } catch (error) {
-    console.error(error);
+    console.error("Error:", error);
     res.status(500).send("Error processing the query.");
   }
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
