@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+import './QueryInput.css';
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
 import PropTypes from 'prop-types';
 
 const QueryInput = ({ query, setQuery, handleQuerySubmit }) => {

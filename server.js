@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from "express";
 import { config } from "dotenv";
 import cors from "cors";
@@ -14,6 +15,23 @@ app.use(cors());
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+=======
+import express from 'express';
+import { Configuration, OpenAIApi } from 'openai';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+dotenv.config();
+
+const app = express();
+app.use(express.json());
+app.use(cors()); 
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
 
 const droneData = [
   {
@@ -68,6 +86,7 @@ const droneData = [
 ];
 
 
+<<<<<<< HEAD
 app.post('/query', async (req, res) => {
   const { query } = req.body;
 
@@ -78,14 +97,36 @@ app.post('/query', async (req, res) => {
       messages: [
         { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: `Given the drone dataset, find data entries relevant to: ${query}` }
+=======
+app.post('/api/query', async (req, res) => {
+  const { query } = req.body;
+
+  try {
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system", 
+          content: "You are a helpful assistant."
+        },
+        {
+          role: "user", 
+          content: `Given the drone dataset, find data entries relevant to: ${query}`
+        }
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
       ],
       max_tokens: 50,
     });
 
+<<<<<<< HEAD
   
     const interpretation = completion.choices[0].message.content;
 
     
+=======
+    const interpretation = completion.data.choices[0].message.content;
+
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
     const filteredData = droneData.filter((data) => {
       const lat = parseFloat(data.latitude); 
       const lon = parseFloat(data.longitude); 
@@ -96,13 +137,25 @@ app.post('/query', async (req, res) => {
       );
     });
 
+<<<<<<< HEAD
    
     res.json({ interpretation, results: filteredData });
   } catch (error) {
     console.error("Error:", error);
+=======
+    res.json({ interpretation, results: filteredData });
+  } catch (error) {
+    console.error(error);
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
     res.status(500).send("Error processing the query.");
   }
 });
 
+<<<<<<< HEAD
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+=======
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+>>>>>>> ba4bd7e4a6c0f7d8c54dc83e246bf76d99771b6d
