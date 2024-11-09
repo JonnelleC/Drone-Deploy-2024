@@ -1,4 +1,4 @@
-import './QueryInput.css';
+
 import PropTypes from 'prop-types';
 
 const QueryInput = ({ query, setQuery, handleQuerySubmit }) => {

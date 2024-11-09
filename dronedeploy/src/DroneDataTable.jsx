@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types';
-import DroneData from './src/DroneData';
+
 
 const DroneDataTable = ({ data }) => (
   <div>
@@ -30,7 +30,7 @@ DroneDataTable.propTypes = {
   ).isRequired,
 };
 
-const App = () => <DroneDataTable data={DroneData} />;
 
-export default App;
+
+export default DroneDataTable;
 

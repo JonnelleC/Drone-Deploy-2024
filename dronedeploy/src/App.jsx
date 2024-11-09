@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import DroneDataTable from "./src/DroneDataTable.js";
-import QueryInput from "./src/QueryInput.js";
-import DroneData from "./src/DroneData.jsx";
+import DroneDataTable from "./DroneDataTable.jsx";
+import QueryInput from "./QueryInput.jsx";
+import DroneData from "./DroneData.jsx";
 
 const App = () => {
   const [query, setQuery] = useState("");

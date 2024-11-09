@@ -68,7 +68,7 @@ const droneData = [
 ];
 
 
-app.post('/api/query', async (req, res) => {
+app.post('/query', async (req, res) => {
   const { query } = req.body;
 
   try {
